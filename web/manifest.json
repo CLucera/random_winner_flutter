@@ -1,0 +1,18 @@
+{
+    "name": "Random Winner",
+    "short_name": "Random Winner",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#0175C2",
+    "theme_color": "#0175C2",
+    "description": "Random name generator draft system.",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "icons/icon.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        }
+    ]
+}
