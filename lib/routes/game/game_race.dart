@@ -69,7 +69,15 @@ class _GameRaceState extends State<GameRace> {
           if (!raceStarted)
             Center(
               child: ElevatedButton(
-                onPressed: raceStarted ? null : _startRace,
+                onPressed: _startRace,
+                child: const Text("START RACE"),
+              ),
+            ),
+          if (raceStarted)
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: ElevatedButton(
+                onPressed: _manualClop,
                 child: const Text("START RACE"),
               ),
             ),
@@ -87,8 +95,17 @@ class _GameRaceState extends State<GameRace> {
       raceStarted = true;
       raceUnits.shuffle(random);
       for (final raceUnit in raceUnits) {
+        if(raceUnit.interactive) {
+          continue;
+        }
         Future.delayed(_stepDuration, () => _step(raceUnit));
       }
+    });
+  }
+
+  _manualClop() {
+    setState(() {
+      _step(raceUnits.firstWhere((e) => e.interactive) );
     });
   }
 
@@ -114,7 +131,7 @@ class _GameRaceState extends State<GameRace> {
   }
 
   void _step(RaceUnitModel unitModel) async {
-    Duration stepDuration = _stepDuration;
+    Duration stepDuration = unitModel.interactive ? Duration.zero  : _stepDuration;
 
     raceUnits.sort((a, b) => a.percentage.compareTo(b.percentage));
 
@@ -173,8 +190,10 @@ class _GameRaceState extends State<GameRace> {
       if (!mounted) {
         return;
       }
-      setState(() {});
-      _step(newModel);
+      if(!newModel.interactive) {
+        setState(() {});
+        _step(newModel);
+      }
     });
   }
 }

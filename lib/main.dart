@@ -19,10 +19,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Random Winner',
       theme: ThemeData(
-          fontFamily: "PressStart",
-          primaryColor: Colors.amber,
-          focusColor: Colors.amber,
-          brightness: Brightness.dark),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.amber,
+          brightness: Brightness.dark,
+        ),
+        fontFamily: "PressStart",
+      ),
       home: const HomePage(),
     );
   }

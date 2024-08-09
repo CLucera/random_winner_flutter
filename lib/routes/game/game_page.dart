@@ -39,20 +39,24 @@ class _GamePageState extends State<GamePage> {
       children: <Widget>[
         OrientationBuilder(builder: (context, orientation) {
           return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Flexible(
-                child: Center(
-                  child: GameBoard(
-                    screenshotController: screenshotController,
-                    child: GameRace(
-                      raceUnits: widget.players
-                          .map((e) => RaceUnitModel(player: e))
-                          .toList(),
-                      onRaceEnded: _finishRace,
-                      onRaceUpdated: _updateRace,
-                      onFirstArrived: (firstArrived) {
-                        _photoFinish();
-                      },
+                child: ColoredBox(
+                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                  child: Center(
+                    child: GameBoard(
+                      screenshotController: screenshotController,
+                      child: GameRace(
+                        raceUnits: widget.players
+                            .map((e) => RaceUnitModel(player: e, interactive: e.name == "Player 1"))
+                            .toList(),
+                        onRaceEnded: _finishRace,
+                        onRaceUpdated: _updateRace,
+                        onFirstArrived: (firstArrived) {
+                          _photoFinish();
+                        },
+                      ),
                     ),
                   ),
                 ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:screenshot/screenshot.dart';
 
+const _BAR_WIDTH = 30.0;
+
 class GameBoard extends StatelessWidget {
   const GameBoard({
     required this.screenshotController,
@@ -13,12 +15,13 @@ class GameBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return AspectRatio(
       aspectRatio: 16 / 9,
       child: Screenshot(
         controller: screenshotController,
         child: Container(
-          color: Theme.of(context).scaffoldBackgroundColor,
+          color: colorScheme.surface,
           child: Stack(
             children: <Widget>[
               //Race background
@@ -26,9 +29,11 @@ class GameBoard extends StatelessWidget {
                   child: Row(
                 children: [
                   Container(
-                    width: 30,
-                    color: Colors.grey,
-                    child: const Center(
+                    width: _BAR_WIDTH,
+                    height: double.infinity,
+                    color: colorScheme.surfaceContainerHighest,
+                    child: const FittedBox(
+                      fit: BoxFit.scaleDown,
                       child: Text(
                         "S\n\nT\n\nA\n\nR\n\nT",
                         textAlign: TextAlign.center,
@@ -37,9 +42,11 @@ class GameBoard extends StatelessWidget {
                   ),
                   const Spacer(),
                   Container(
-                    width: 30,
-                    color: Colors.grey,
-                    child: const Center(
+                    width: _BAR_WIDTH,
+                    height: double.infinity,
+                    color: colorScheme.surfaceContainerHighest,
+                    child: const FittedBox(
+                      fit: BoxFit.scaleDown,
                       child: Text(
                         "F\n\nI\n\nN\n\nI\n\nS\n\nH",
                         textAlign: TextAlign.center,

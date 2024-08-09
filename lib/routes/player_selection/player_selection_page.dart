@@ -57,7 +57,7 @@ class _PlayerSelectionPageState extends State<PlayerSelectionPage> {
               ),
             ),
             Container(
-              color: Theme.of(context).bottomAppBarColor,
+              color: Theme.of(context).colorScheme.surfaceContainer,
               width: double.infinity,
               padding: const EdgeInsets.all(16.0),
               child: Flex(

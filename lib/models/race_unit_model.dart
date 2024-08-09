@@ -4,6 +4,7 @@ import 'player.dart';
 
 class RaceUnitModel extends Equatable {
   final Player player;
+  final bool interactive;
   final int clops;
   final int percentage;
   final int startTimestamp;
@@ -13,6 +14,7 @@ class RaceUnitModel extends Equatable {
 
   const RaceUnitModel({
     required this.player,
+    this.interactive = false,
     this.clops = 0,
     this.percentage = 0,
     this.startTimestamp = 0,
@@ -26,6 +28,7 @@ class RaceUnitModel extends Equatable {
 
   RaceUnitModel copyWith({
     Player? player,
+    bool? interactive,
     int? clops,
     int? percentage,
     int? startTimestamp,
@@ -35,6 +38,7 @@ class RaceUnitModel extends Equatable {
   }) {
     return RaceUnitModel(
       player: player ?? this.player,
+      interactive: interactive ?? this.interactive,
       clops: clops ?? this.clops,
       percentage: percentage ?? this.percentage,
       startTimestamp: startTimestamp ?? this.startTimestamp,
