@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:random_winner_flutter/models/player.dart';
+import 'package:random_winner_flutter/routes/achievements/achievements_page.dart';
 import 'package:random_winner_flutter/routes/game/game_page.dart';
 import 'package:random_winner_flutter/routes/home/random_winner_title.dart';
 import 'package:random_winner_flutter/routes/player_selection/player_selection_page.dart';
@@ -52,6 +53,12 @@ class _HomePageState extends State<HomePage> {
                   ElevatedButton(
                     onPressed: _startRace,
                     child: const Text("START FROM LIST"),
+                  ),
+                  if (orientation == Orientation.portrait)
+                    const SizedBox.square(dimension: 20),
+                  ElevatedButton(
+                    onPressed: _goToAchievements,
+                    child: const Text("ACHIEVEMENTS"),
                   )
                 ],
               ),
@@ -89,6 +96,12 @@ class _HomePageState extends State<HomePage> {
   _startClassic() {
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => const PlayerSelectionPage(),
+    ));
+  }
+
+  _goToAchievements() {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => const AchievementsPage(),
     ));
   }
 
