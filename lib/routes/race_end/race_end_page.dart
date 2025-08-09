@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:random_winner_flutter/models/race_unit_model.dart';
+import 'package:random_winner_flutter/services/achievements_service.dart';
 import 'package:random_winner_flutter/ui/styles.dart';
 
 import '../game/game_page.dart';
@@ -26,7 +27,8 @@ class _RaceEndPageState extends State<RaceEndPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    AchievementsService.instance.incrementRacesRun();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       setState(() {
         inited = true;
       });

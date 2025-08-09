@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:random_winner_flutter/constants/assets.dart';
 import 'package:random_winner_flutter/models/race_unit_model.dart';
 import 'package:random_winner_flutter/routes/game/race_widget.dart';
+import 'package:random_winner_flutter/services/achievements_service.dart';
 import 'package:soundpool/soundpool.dart';
 
 class GameRace extends StatefulWidget {
@@ -35,6 +36,7 @@ class _GameRaceState extends State<GameRace> {
   bool raceStarted = false;
   late List<RaceUnitModel> raceUnits;
   RaceUnitModel? firstPlace;
+  double _maxWidth = 0;
 
   @override
   void initState() {
@@ -48,6 +50,7 @@ class _GameRaceState extends State<GameRace> {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
+      _maxWidth = constraints.maxWidth;
       return Stack(
         clipBehavior: Clip.none,
         children: [
@@ -95,7 +98,7 @@ class _GameRaceState extends State<GameRace> {
       raceStarted = true;
       raceUnits.shuffle(random);
       for (final raceUnit in raceUnits) {
-        if(raceUnit.interactive) {
+        if (raceUnit.interactive) {
           continue;
         }
         Future.delayed(_stepDuration, () => _step(raceUnit));
@@ -105,7 +108,7 @@ class _GameRaceState extends State<GameRace> {
 
   _manualClop() {
     setState(() {
-      _step(raceUnits.firstWhere((e) => e.interactive) );
+      _step(raceUnits.firstWhere((e) => e.interactive));
     });
   }
 
@@ -131,7 +134,8 @@ class _GameRaceState extends State<GameRace> {
   }
 
   void _step(RaceUnitModel unitModel) async {
-    Duration stepDuration = unitModel.interactive ? Duration.zero  : _stepDuration;
+    Duration stepDuration =
+        unitModel.interactive ? Duration.zero : _stepDuration;
 
     raceUnits.sort((a, b) => a.percentage.compareTo(b.percentage));
 
@@ -149,8 +153,12 @@ class _GameRaceState extends State<GameRace> {
     }
 
     Future.delayed(stepDuration, () {
+      final delta = random.nextInt(4);
+      final pixelsMoved = (_maxWidth / 100) * delta;
+      AchievementsService.instance.addPixelsTravelled(pixelsMoved);
+
       final raceModelIndex = raceUnits.indexOf(unitModel);
-      final nextPercentage = unitModel.percentage + random.nextInt(4);
+      final nextPercentage = unitModel.percentage + delta;
       final nextClops = unitModel.clops + 1;
       final justArrived =
           unitModel.arrivalTimestamp == 0 && nextPercentage >= 100;
@@ -190,7 +198,7 @@ class _GameRaceState extends State<GameRace> {
       if (!mounted) {
         return;
       }
-      if(!newModel.interactive) {
+      if (!newModel.interactive) {
         setState(() {});
         _step(newModel);
       }
