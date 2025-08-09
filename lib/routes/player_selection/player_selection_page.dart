@@ -123,7 +123,7 @@ class _PlayerSelectionPageState extends State<PlayerSelectionPage> {
 
     setState(() {
       if (existingPlayerIndex != null) {
-        players[existingPlayerIndex].copyWith(
+        players[existingPlayerIndex] = players[existingPlayerIndex].copyWith(
           color: players[playerIndex].color,
         );
       }
