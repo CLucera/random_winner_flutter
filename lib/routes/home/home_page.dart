@@ -93,28 +93,33 @@ class _HomePageState extends State<HomePage> {
   }
 
   _startRace() {
-    final playerNames = textController.text.split(",");
-    if (playerNames.isEmpty || playerNames.first.isEmpty) {
+    final playerNames = textController.text
+        .split(",")
+        .map((name) => name.trim())
+        .where((name) => name.isNotEmpty)
+        .toList();
+
+    if (playerNames.length < 2) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text("Please insert a valid list of player"),
+          content: Text("Please insert at least 2 valid player names"),
         ),
       );
       return;
-    } else {
-      var index = 0;
-      Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => GamePage(
-          playerNames
-              .map(
-                (name) => Player(
-                  name: name.trim(),
-                  color: RandomWinnerStyles.getHorseColor(index++),
-                ),
-              )
-              .toList(),
-        ),
-      ));
     }
+
+    var index = 0;
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => GamePage(
+        playerNames
+            .map(
+              (name) => Player(
+                name: name,
+                color: RandomWinnerStyles.getHorseColor(index++),
+              ),
+            )
+            .toList(),
+      ),
+    ));
   }
 }
